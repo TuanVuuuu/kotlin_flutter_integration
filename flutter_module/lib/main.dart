@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/screens/scenario_view.dart';
 import 'package:get/get.dart';
 
 // Import constants
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize controllers
     _initializeControllers();
-    
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Module',
@@ -30,14 +31,14 @@ class MyApp extends StatelessWidget {
       getPages: _createAppRoutes(),
     );
   }
-  
+
   /// Initialize all required controllers
   void _initializeControllers() {
     // Register controllers with GetX dependency injection
     Get.put(CounterController());
     Get.put(PlatformChannelController());
   }
-  
+
   /// Build app theme
   ThemeData _buildAppTheme() {
     return ThemeData(
@@ -45,13 +46,14 @@ class MyApp extends StatelessWidget {
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
-  
+
   /// Create application routes
   List<GetPage> _createAppRoutes() {
     return [
       GetPage(name: '/', page: () => const HomePage()),
       GetPage(name: '/$RED_SQUARE_ROUTE', page: () => const RedSquareView()),
       GetPage(name: '/$BLUE_SQUARE_ROUTE', page: () => const BlueSquareView()),
+      GetPage(name: '/$SCENARIO_VIEW', page: () => ScenarioView()),
     ];
   }
 }
@@ -63,7 +65,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CounterController controller = Get.find<CounterController>();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Module Home'),
@@ -89,31 +91,31 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-  
+
   /// Build the counter display widget
   Widget _buildCounterDisplay(CounterController controller) {
     return Obx(() => Text(
-      'Counter: ${controller.count}',
-      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-    ));
+          'Counter: ${controller.count}',
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ));
   }
-  
+
   /// Build the message display widget
   Widget _buildMessageDisplay(CounterController controller) {
     return Obx(() => Visibility(
-      visible: controller.hasMessage(),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'Message từ Native: ${controller.message}',
-          style: const TextStyle(
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+          visible: controller.hasMessage(),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Message từ Native: ${controller.message}',
+              style: const TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }
 
@@ -124,7 +126,7 @@ class RedSquareView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CounterController controller = Get.find<CounterController>();
-    
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -145,9 +147,9 @@ class RedSquareView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Obx(() => Text(
-                'Counter: ${controller.count}',
-                style: const TextStyle(color: Colors.white),
-              )),
+                    'Counter: ${controller.count}',
+                    style: const TextStyle(color: Colors.white),
+                  )),
             ],
           ),
         ),
@@ -164,7 +166,7 @@ class BlueSquareView extends StatelessWidget {
   Widget build(BuildContext context) {
     final CounterController controller = Get.find<CounterController>();
     final platformController = Get.find<PlatformChannelController>();
-    
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -185,12 +187,13 @@ class BlueSquareView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Obx(() => Text(
-                'Message: ${controller.message}',
-                style: const TextStyle(color: Colors.white),
-              )),
+                    'Message: ${controller.message}',
+                    style: const TextStyle(color: Colors.white),
+                  )),
               const SizedBox(height: 15),
               ElevatedButton(
-                onPressed: () => platformController.sendMessageToNative('Hello from Flutter Blue Square!'),
+                onPressed: () => platformController
+                    .sendMessageToNative('Hello from Flutter Blue Square!'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.blue,

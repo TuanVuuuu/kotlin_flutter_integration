@@ -8,38 +8,40 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
 import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.embedding.android.RenderMode
 
 /**
  * Manager để quản lý toàn bộ logic liên quan đến Flutter
  */
 class FlutterViewManager private constructor(private val context: Context) {
-    
-    private val redFlutterEngine: FlutterEngine by lazy {
+
+
+    private val scenarioEngine: FlutterEngine by lazy {
         FlutterEngine(context).apply {
-            navigationChannel.setInitialRoute("red_square")
+            navigationChannel.setInitialRoute("scenario_view")
             dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
-            FlutterEngineCache.getInstance().put(RED_ENGINE_ID, this)
+            FlutterEngineCache.getInstance().put(SCENARIO_ENGINE_ID, this)
         }
     }
-    
-    private val blueFlutterEngine: FlutterEngine by lazy {
-        FlutterEngine(context).apply {
-            navigationChannel.setInitialRoute("blue_square")
-            dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
-            FlutterEngineCache.getInstance().put(BLUE_ENGINE_ID, this)
-        }
-    }
+
     
     private val methodChannel: MethodChannel by lazy {
-        MethodChannel(redFlutterEngine.dartExecutor, FLUTTER_CHANNEL_NAME)
+        // MethodChannel(redFlutterEngine.dartExecutor, FLUTTER_CHANNEL_NAME)
+        MethodChannel(scenarioEngine.dartExecutor, FLUTTER_CHANNEL_NAME)
     }
     
     /**
      * Thêm một FlutterView vào container với engine màu đỏ
      */
     fun attachRedFlutterView(container: FrameLayout): FlutterView {
-        val flutterView = FlutterView(context)
-        flutterView.attachToFlutterEngine(redFlutterEngine)
+        val flutterView = FlutterView(context, RenderMode.texture)
+        flutterView.attachToFlutterEngine(scenarioEngine)
+        
+        // Đảm bảo FlutterView có thể nhận sự kiện touch
+        flutterView.isClickable = true
+        flutterView.isFocusable = true
+        flutterView.isFocusableInTouchMode = true
+        
         container.addView(flutterView)
         return flutterView
     }
@@ -48,8 +50,14 @@ class FlutterViewManager private constructor(private val context: Context) {
      * Thêm một FlutterView vào container với engine màu xanh
      */
     fun attachBlueFlutterView(container: FrameLayout): FlutterView {
-        val flutterView = FlutterView(context)
-        flutterView.attachToFlutterEngine(blueFlutterEngine)
+        val flutterView = FlutterView(context, RenderMode.texture)
+        flutterView.attachToFlutterEngine(scenarioEngine)
+        
+        // Đảm bảo FlutterView có thể nhận sự kiện touch
+        flutterView.isClickable = true
+        flutterView.isFocusable = true
+        flutterView.isFocusableInTouchMode = true
+        
         container.addView(flutterView)
         return flutterView
     }
@@ -65,15 +73,11 @@ class FlutterViewManager private constructor(private val context: Context) {
      * Giải phóng tài nguyên khi không cần nữa
      */
     fun dispose() {
-        redFlutterEngine.destroy()
-        blueFlutterEngine.destroy()
-        FlutterEngineCache.getInstance().remove(RED_ENGINE_ID)
-        FlutterEngineCache.getInstance().remove(BLUE_ENGINE_ID)
+        FlutterEngineCache.getInstance().remove(SCENARIO_ENGINE_ID)
     }
     
     companion object {
-        private const val RED_ENGINE_ID = "red_engine"
-        private const val BLUE_ENGINE_ID = "blue_engine"
+        private const val SCENARIO_ENGINE_ID = "scenario_engine"
         private const val FLUTTER_CHANNEL_NAME = "flutter_module_channel"
         
         @Volatile

@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <!-- Container cho hình vuông đỏ Flutter -->
+    <!-- Single container for full-screen Flutter view -->
     <FrameLayout
-        android:id="@+id/redSquareContainer"
+        android:id="@+id/flutterContainer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp" />
+        android:layout_height="match_parent" />
 
-    <!-- Container cho hình vuông xanh Flutter -->
-    <FrameLayout
-        android:id="@+id/blueSquareContainer"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp" />
-
-</LinearLayout> 
+</FrameLayout> 

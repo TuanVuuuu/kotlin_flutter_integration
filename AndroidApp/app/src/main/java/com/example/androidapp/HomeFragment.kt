@@ -50,16 +50,6 @@ class HomeFragment : Fragment(), TabFragment, TutorialManager.TutorialCallback {
         
         // Khởi tạo ViewModel
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-        
-        // Log buttons early in the lifecycle
-        val btn1 = binding.btnItem1
-        val btn2 = binding.btnItem2
-        val btn3 = binding.btnItem3
-        
-        Log.d(TAG, "Button btnItem1 is null: ${btn1 == null}")
-        Log.d(TAG, "Button btnItem2 is null: ${btn2 == null}")
-        Log.d(TAG, "Button btnItem3 is null: ${btn3 == null}")
-        
         return view
     }
     
@@ -163,10 +153,10 @@ class HomeFragment : Fragment(), TabFragment, TutorialManager.TutorialCallback {
             val hasShown = tutorialManager.hasShownTutorial(HOME_TUTORIAL_ID)
             Log.d(TAG, "Has tutorial been shown before: $hasShown")
             
-            // if (hasShown) {
-            //     Log.d(TAG, "Tutorial already shown, skipping")
-            //     return
-            // }
+            if (hasShown) {
+                Log.d(TAG, "Tutorial already shown, skipping")
+                return
+            }
             
             // Check fragment visibility but ALLOW it to continue even if not visible
             // This is to debug why isVisible might be false when we expect it to be true
