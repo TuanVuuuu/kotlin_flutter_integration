@@ -204,7 +204,9 @@ class HomeFragment : Fragment(), TabFragment, TutorialManager.TutorialCallback {
                     val steps = listOf(
                         TutorialManager.TutorialStepInput(binding.btnItem1, "Mở màn hình Flutter", "Bấm vào đây để mở màn hình Flutter"),
                         TutorialManager.TutorialStepInput(binding.btnItem2, "Chức năng 2", "Bấm vào đây để sử dụng chức năng 2"),
-                        TutorialManager.TutorialStepInput(binding.btnItem3, "Chức năng 3", "Bấm vào đây để sử dụng chức năng 3")
+                        TutorialManager.TutorialStepInput(binding.btnItem3, "Chức năng 3", "Bấm vào đây để sử dụng chức năng 3"),
+                        TutorialManager.TutorialStepInput(binding.btnItem4, "Chức năng 4", "Bấm vào đây để sử dụng chức năng 4"),
+                        TutorialManager.TutorialStepInput(binding.btnItem5, "Chức năng 5", "Bấm vào đây để sử dụng chức năng 5")
 
                         // Thêm các bước khác nếu muốn
                     )

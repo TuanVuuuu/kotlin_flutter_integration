@@ -67,6 +67,14 @@ class TutorialOverlayView @JvmOverloads constructor(
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
     
+    // Paint for dashed border
+    private val dashedBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        style = Paint.Style.STROKE
+        strokeWidth = 4f
+        pathEffect = android.graphics.DashPathEffect(floatArrayOf(12f, 12f), 0f)
+    }
+    
     // Views to highlight
     private var targetView: View? = null
     private var tooltipView: TooltipView? = null
@@ -422,9 +430,20 @@ class TutorialOverlayView @JvmOverloads constructor(
                 targetRect.bottom + highlightPadding
             )
             canvas.drawRoundRect(rectF, highlightRadius, highlightRadius, transparentPaint)
+
+            // Dashline cách vùng sáng 10dp
+            val dashlineOffset = dpToPx(10).toFloat()
+            val dashRectF = RectF(
+                rectF.left - dashlineOffset,
+                rectF.top - dashlineOffset,
+                rectF.right + dashlineOffset,
+                rectF.bottom + dashlineOffset
+            )
+            canvas.drawRoundRect(dashRectF, highlightRadius + dashlineOffset, highlightRadius + dashlineOffset, dashedBorderPaint)
+
             super.onDraw(canvas)
         } catch (e: Exception) {
-            Log.e(TAG, "Error in onDraw: ${e.message}", e)
+            Log.e(TAG, "Error in onDraw: ", e)
         }
     }
     

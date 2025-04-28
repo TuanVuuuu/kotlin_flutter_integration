@@ -3,7 +3,10 @@ package com.example.androidapp
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.DashPathEffect
+import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.RectF
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
